@@ -1,22 +1,51 @@
-// 1. Спочатку імпортуємо всі наші компоненти
+п»їimport React, { useState, useEffect } from 'react';
 import Header from './components/Header';
-import Experience from './components/Experience'; // Якщо ти вже створив цей файл
+import Experience from './components/Experience';
 import Footer from './components/Footer';
+import Reviews from './components/Reviews'; // РџС–РґРєР»СЋС‡Р°С”РјРѕ РІС–РґРіСѓРєРё
+import ContactForm from './components/ContactForm'; // РџС–РґРєР»СЋС‡Р°С”РјРѕ С„РѕСЂРјСѓ
 
 function App() {
+    const [theme, setTheme] = useState('light');
+
+    useEffect(() => {
+        
+        const hours = new Date().getHours();
+       
+        if (hours >= 7 && hours < 21) {
+            setTheme('light');
+        } else {
+            setTheme('dark');
+        }
+    }, []);
+
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    };
+
     return (
-        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', fontFamily: 'Arial' }}>
+        <div className={theme === 'dark' ? 'bg-gray-800 text-white min-h-screen transition-all duration-700' : 'bg-gray-50 text-gray-900 min-h-screen transition-all duration-700'}>
+            <div className="max-w-4xl mx-auto p-8">
 
-            {/* 2. Викликаємо компоненти як теги */}
-            <Header />
+                {/* РљРЅРѕРїРєР° СЂСѓС‡РЅРѕРіРѕ РїРµСЂРµРјРёРєР°РЅРЅСЏ С‚РµРјРё */}
+                <div className="flex justify-end mb-8">
+                    <button
+                        onClick={toggleTheme}
+                        className="px-6 py-2 rounded-full border-2 border-blue-600 text-blue-600 font-bold hover:bg-blue-600 hover:text-white transition-all shadow-md active:scale-90"
+                    >
+                        {theme === 'light' ? 'РќС–С‡РЅРёР№ СЂРµР¶РёРј' : 'Р”РµРЅРЅРёР№ СЂРµР¶РёРј'}
+                    </button>
+                </div>
 
-            <main>
-                <Experience />
-                {/* Можеш додати сюди ще якийсь текст або компоненти */}
-            </main>
+                <Header />
+                <main>
+                    <Experience />
+                    <Reviews /> {/* Р’С–РґРѕР±СЂР°Р¶Р°С”РјРѕ Р±Р»РѕРє РІС–РґРіСѓРєС–РІ */}
+                </main>
+                <Footer />
 
-            <Footer />
-
+                <ContactForm /> {/* РњРѕРґР°Р»СЊРЅРµ РІС–РєРЅРѕ (Р·'СЏРІРёС‚СЊСЃСЏ С‡РµСЂРµР· 1 С…РІ) */}
+            </div>
         </div>
     );
 }
